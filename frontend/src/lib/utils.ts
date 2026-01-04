@@ -1,7 +1,7 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:4000/api";
 
 export function getImageUrl(imageId: string): string {
-  return `${API_URL}/api/images/${imageId}`;
+  return `${API_BASE}/images/${imageId}`;
 }
 
 export function formatPrice(price: number): string {
