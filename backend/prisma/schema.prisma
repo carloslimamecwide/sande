@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(SUPER_ADMIN)
+  createdAt    DateTime @default(now())
+
+  @@map("users")
+}
+
+model Car {
+  id           String     @id @default(uuid())
+  title        String
+  make         String
+  model        String
+  year         Int
+  price        Decimal    @db.Decimal(10, 2)
+  mileage      Int
+  fuel         String
+  transmission String
+  description  String     @db.Text
+  isPublished  Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  images       CarImage[]
+
+  @@map("cars")
+}
+
+model CarImage {
+  id        String   @id @default(uuid())
+  carId     String
+  car       Car      @relation(fields: [carId], references: [id], onDelete: Cascade)
+  filename  String
+  mimeType  String
+  base64    String   @db.Text
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("car_images")
+  @@index([carId])
+}
