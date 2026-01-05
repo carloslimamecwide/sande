@@ -25,9 +25,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Health check
-app.get("/health", (req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+// Health check em /api/health
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Routes
